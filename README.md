@@ -1,269 +1,263 @@
 # FormGuardian React
 
-A powerful yet simple form validator for React applications with built-in validation, animations, and TypeScript support.
-
 [![NPM Version](https://img.shields.io/npm/v/formguardian-react.svg)](https://www.npmjs.com/package/formguardian-react)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-✨ **Instant Form Creation** - Create forms in minutes, not hours  
-🎯 **Built-in Validation** - Email, required, length, pattern, and more  
-🎨 **Ready-to-Use Styles** - Beautiful defaults with easy customization  
-🔄 **Type-Safe** - Full TypeScript support with great IDE experience  
-
-## Quick Start
+Build production-ready React forms in minutes with built-in validation, TypeScript support, and beautiful defaults.
 
 ```bash
 npm install formguardian-react
 ```
 
-Import and use in your React app:
+## Why FormGuardian?
+
+- **⚡ Fast Setup** - Working form in 5 minutes
+- **🎯 Smart Validation** - 10+ built-in validators + custom logic
+- **🎨 Zero Config Styling** - Beautiful out of the box
+- **🔒 Type-Safe** - Full TypeScript support
+
+## Quick Example
 
 ```tsx
-import { DynamicForm } from 'formguardian-react';
-import type { FieldConfig } from 'formguardian-react';
+import { DynamicForm, FieldConfig } from 'formguardian-react';
 import 'formguardian-react/styles';
 
-function LoginForm() {
-  // Define your form fields
-  const fields: FieldConfig[] = [
-    {
-      name: "email",
-      label: "Email",
-      type: "email",
-      required: true,
-      validators: [
-        { type: "email", message: "Please enter a valid email" }
-      ]
-    },
-    {
-      name: "password",
-      label: "Password",
-      type: "password",
-      validators: [
-        { type: "minLength", value: 8, message: "Must be at least 8 characters" }
-      ]
-    }
-  ];
+const fields: FieldConfig[] = [
+  {
+    name: "email",
+    type: "email",
+    label: "Email",
+    required: true,
+    validators: [
+      { type: "email", message: "Invalid email" }
+    ]
+  },
+  {
+    name: "password",
+    type: "password",
+    label: "Password",
+    validators: [
+      { type: "minLength", value: 8, message: "Min 8 characters" }
+    ]
+  }
+];
 
-  const handleSubmit = (values: Record<string, unknown>) => {
-    console.log('Form values:', values);
-  };
-
+function App() {
   return (
     <DynamicForm
       fields={fields}
-      onSubmit={handleSubmit}
+      onSubmit={(values) => console.log(values)}
       submitButtonText="Sign In"
     />
   );
 }
 ```
 
-## Key Concepts
+## Core Concepts
 
-###  Field Configuration
-Each field in the `fields` array describes how to render and validate a form input:
+### Field Configuration
+
+Each field needs a `name` (required) and accepts these common options:
 
 ```tsx
-const fields: FieldConfig[] = [
-  {
-    name: "email",           // REQUIRED - Unique field identifier
-    type: "email",           // Optional - defaults to "text"
-    label: "Email Address",  // Optional - displayed as label
-    required: true,          // Optional - makes field required
-    validators: [],          // Optional - validation rules
-    defaultValue: "",        // Optional - initial value
-    placeholder: "you@example.com"  // Optional - placeholder text
-  }
-  // ... more fields
-];
+{
+  name: "email",              // Required - unique identifier
+  type: "email",              // Input type (default: "text")
+  label: "Email Address",     // Display label
+  required: true,             // Mark as required
+  validators: [],             // Validation rules
+  placeholder: "you@example.com"
+}
 ```
 
-> ** Important:** Always type your fields with `FieldConfig[]` for better IDE support and type safety!
+### Validation
 
-###  Understanding Validators
-
-Each field can have multiple validators. They run in order and stop at the first failure:
+Add multiple validators per field - they run in order:
 
 ```tsx
 validators: [
-  { type: "required", message: "Email is required" },
-  { type: "email", message: "Enter a valid email" }
+  { type: "required", message: "Email required" },
+  { type: "email", message: "Invalid format" }
 ]
 ```
 
-**Available Validators:**
-- `required` - Field must not be empty
+**Built-in Validators:**
+- `required` - Non-empty
 - `email` - Valid email format
-- `minLength` - Minimum characters (use with `value` property)
-- `maxLength` - Maximum characters (use with `value` property)
-- `pattern` - Regex pattern matching
-- `match` - Match another field value
-- `number` - Must be a number
-- `url` - Valid URL format
-- `phone` - Valid phone format (exactly 10 digits)
-- `custom` - Your own validation logic
+- `minLength` / `maxLength` - Character limits
+- `pattern` - Regex matching
+- `match` - Match another field
+- `number` - Numeric only
+- `url` - Valid URL
+- `phone` - 10-digit phone
+- `custom` - Your own logic
 
-## Features
+## Common Use Cases
 
-### 1. Supported Field Types
-- **Text Inputs:** `text`, `email`, `password`, `number`, `tel`, `url`, `date`, `datetime-local`
-- **Complex Inputs:** `textarea`, `select`, `checkbox`, `radio`
-
-### 2. Built-in Validators
-- ✓ `required` - Required fields
-- ✓ `email` - Email validation
-- ✓ `minLength` - Minimum length validation
-- ✓ `maxLength` - Maximum length validation
-- ✓ `pattern` - RegExp pattern matching
-- ✓ `match` - Match another field value (e.g., password confirmation)
-- ✓ `custom` - Custom async/sync validators
-- ✓ `number` - Number validation
-- ✓ `url` - URL validation
-- ✓ `phone` - Phone number validation (exactly 10 digits)
-
-### 3. Real-time Validation Modes
-Choose when validation runs:
+### Password Confirmation
 
 ```tsx
-// Validates as user types (fastest feedback)
-<DynamicForm fields={fields} validationMode="onChange" />
-
-// Validates when field loses focus (default - balanced)
-<DynamicForm fields={fields} validationMode="onBlur" />
-
-// Validates only on form submission
-<DynamicForm fields={fields} validationMode="onSubmit" />
-```
-
-Notes:
-- In `onChange` mode, field validation is debounced by ~300ms. If the user pauses typing (e.g., typing `him@gm` and stopping), validation runs and the error appears smoothly without requiring blur.
-- In `onBlur` mode, validation runs when the field loses focus.
-- In `onSubmit` mode, validation runs for all fields upon submission only.
-
-### 4. Async Validation & Submission (with Submit Throttling)
-Perfect for checking username availability, email existence, etc.:
-
-```tsx
-const fields: FieldConfig[] = [
-  {
-    name: "username",
-    label: "Username",
-    validators: [{
-      type: "custom",
-      message: "Username already taken",
-      custom: async (value) => {
-        const response = await checkUsernameAvailability(value);
-        return response.available; // returns boolean
-      }
-    }]
+[
+  { name: "password", type: "password", label: "Password" },
+  { 
+    name: "confirmPassword", 
+    type: "password",
+    label: "Confirm Password",
+    validators: [
+      { type: "match", matchField: "password", message: "Passwords don't match" }
+    ]
   }
-];
-
-// Async form submission
-<DynamicForm
-  fields={fields}
-  onSubmit={async (values) => {
-    await saveFormToAPI(values);
-  }}
-  // Prevent fast double-submits; default is 1000ms
-  submitThrottleMs={1500}
-/>
+]
 ```
 
-### 5. Beautiful Built-in Styles
-```tsx
-// Use default beautiful styles (recommended)
-import 'formguardian-react/styles';
-```
+### Async Validation
 
-## Examples
-
-- Quick start above shows a minimal login form.
-- For a complete, real-world example with most field types and validators, see `src/components/EXAMPLE_ADVANCED_FORM.tsx`.
-
-## API Reference
-
-### DynamicForm Component
-Main component for rendering forms with validation.
-
-Props (most used):
-- fields: FieldConfig[] (required)
-- onSubmit: (values) => void | Promise<void> (required)
-- validationMode?: 'onChange' | 'onBlur' | 'onSubmit' (default: 'onBlur')
-- submitThrottleMs?: number (default: 1000)
-- submitButtonText?: string, resetButtonText?: string, showResetButton?: boolean
-- disabled?: boolean, className?: string
-
-### FieldConfig Interface
-Structure of each field (most common):
-- name: string (required)
-- type?: string (default: 'text')
-- label?: string
-- placeholder?: string
-- required?: boolean
-- disabled?: boolean
-- defaultValue?: unknown
-- validators?: (ValidationRule | string)[]
-- rows?: number (for textarea)
-- options?: Array<{ value: string | number; label: string }> (for select/radio/checkbox)
-
-### Validator Types
-
-#### Built-in String Validators
-Simple validators can be passed as strings:
+Check username availability, email existence, etc:
 
 ```tsx
-validators: ['required', 'email', 'url', 'number', 'phone']
-```
-
-#### Object Validators with Options
-Validators that need configuration:
-
-```tsx
-// Min/Max Length
-{ type: 'minLength', value: 8, message: 'Minimum 8 characters' }
-{ type: 'maxLength', value: 100, message: 'Maximum 100 characters' }
-
-// Pattern Matching
-{ type: 'pattern', value: /^[A-Z0-9]+$/, message: 'Only uppercase and numbers' }
-
-// Match Another Field
-{ type: 'match', matchField: 'password', message: 'Passwords must match' }
-
-// Custom Validation
 {
-  type: 'custom',
-  message: 'Custom error message',
-  custom: (value, formData) => {
-    // Return boolean or Promise<boolean>
-    return value.length > 3;
+  name: "username",
+  validators: [{
+    type: "custom",
+    message: "Username taken",
+    custom: async (value) => {
+      const res = await fetch(`/api/check?user=${value}`);
+      return res.ok;
+    }
+  }]
+}
+```
+
+### Validation Timing
+
+```tsx
+// Validate while typing (300ms debounce)
+<DynamicForm validationMode="onChange" />
+
+// Validate on blur (default)
+<DynamicForm validationMode="onBlur" />
+
+// Validate only on submit
+<DynamicForm validationMode="onSubmit" />
+```
+
+### Select & Radio Fields
+
+```tsx
+{
+  name: "country",
+  type: "select",
+  label: "Country",
+  options: [
+    { value: "us", label: "United States" },
+    { value: "uk", label: "United Kingdom" }
+  ]
+}
+```
+
+## Advanced Features
+
+### Custom Validation
+
+Access form data and run any logic:
+
+```tsx
+{
+  type: "custom",
+  message: "Error message",
+  custom: (value, allFormData) => {
+    // Return true if valid, false if invalid
+    return value.length > 3 && !value.includes('@');
   }
 }
 ```
 
-## Troubleshooting & FAQ
+### Async Form Submission
 
-### ❓ How do I make a field required?
 ```tsx
-{ name: 'email', required: true, validators: ['required'] }
+<DynamicForm
+  onSubmit={async (values) => {
+    await saveToAPI(values);
+  }}
+  submitThrottleMs={1500}  // Prevent double-submit
+/>
 ```
 
-### ❓ How do I validate dependent fields (e.g., confirm password)?
+### Supported Input Types
+
+**Text:** `text`, `email`, `password`, `number`, `tel`, `url`, `date`  
+**Complex:** `textarea`, `select`, `checkbox`, `radio`
+
+## Props Reference
+## 🎨 Theming
+
+FormGuardian comes with 8 beautiful themes:
+
+| Theme     | Style         | Primary Color | Best For                |
+|-----------|--------------|--------------|-------------------------|
+| modern    | Vibrant blue  | #1e40af      | Default, all-purpose    |
+| dark      | Dark mode     | #f43f5e      | Night, accessibility    |
+| minimal   | Minimalist    | #d946ef      | Clean, distraction-free |
+| gradient  | Gradient      | #ec4899      | Modern, creative        |
+| ocean     | Blue/teal     | #0ea5e9      | Calm, professional      |
+| sunset    | Orange/pink   | #f97316      | Warm, friendly          |
+| purple    | Purple/pink   | #a78bfa      | Elegant, creative       |
+| forest    | Green/earthy  | #059669      | Natural, organic        |
+
+**Usage:**
+
 ```tsx
-{ type: 'match', matchField: 'password', message: 'Passwords do not match' }
+import { DynamicForm } from 'formguardian-react';
+
+// Use a built-in theme by name (default is 'modern')
+<DynamicForm theme="ocean" ... />
+
+// Use a custom theme object
+import { oceanTheme } from 'formguardian-react/themes';
+<DynamicForm theme={oceanTheme} ... />
 ```
 
-### ❓ How do I validate against an API?
-```tsx
-{ type: 'custom', message: 'Username taken', custom: async (v) => (await fetch(`/api/check?u=${v}`)).ok }
-```
+All themeable colors, spacing, and fonts are handled automatically. No extra setup required.
 
-### ❓ Validators not working?
-Check: field has `name`, validators array shape is correct, string types are valid, object validators include `type`, and custom returns boolean/Promise<boolean>.
+### DynamicForm
 
-## More resources
-- Full advanced example: `src/components/EXAMPLE_ADVANCED_FORM.tsx`
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `fields` | `FieldConfig[]` | Required | Form field definitions |
+| `onSubmit` | `function` | Required | Submit handler |
+| `validationMode` | `'onChange' \| 'onBlur' \| 'onSubmit'` | `'onBlur'` | When to validate |
+| `submitButtonText` | `string` | `'Submit'` | Submit button label |
+| `submitThrottleMs` | `number` | `1000` | Throttle between submits |
+| `disabled` | `boolean` | `false` | Disable entire form |
+
+### FieldConfig
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `name` | `string` | ✓ | Unique identifier |
+| `type` | `string` | - | Input type |
+| `label` | `string` | - | Field label |
+| `validators` | `array` | - | Validation rules |
+| `required` | `boolean` | - | Mark required |
+| `placeholder` | `string` | - | Placeholder text |
+| `defaultValue` | `any` | - | Initial value |
+| `options` | `array` | - | For select/radio |
+
+## Troubleshooting
+
+**Validators not running?**  
+Ensure your field has a `name`, and validators use correct types (`'required'`, not `'require'`)
+
+**Need to validate against another field?**  
+Use `{ type: "match", matchField: "otherFieldName" }`
+
+**Custom validator not working?**  
+Must return `boolean` or `Promise<boolean>`
+
+## Example
+
+See [`src/components/EXAMPLE_ADVANCED_FORM.tsx`](src/components/EXAMPLE_ADVANCED_FORM.tsx) for a complete real-world form.
 
 ## License
+
 MIT © [Himanshu Sinha](LICENSE)
