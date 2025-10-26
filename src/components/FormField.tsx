@@ -130,6 +130,52 @@ export const FormField: React.FC<FormFieldProps> = ({
       );
 
     case 'checkbox':
+      // Checkbox group (multiple options)
+      if (field.options && field.options.length > 0) {
+        const valueArray = Array.isArray(value) ? value : [];
+        return (
+          <div className={fieldClassName}>
+            {field.label && (
+              <label className={`form-label ${isError ? 'error' : ''}`}>
+                {field.label}
+                {field.required && <span className="required-indicator">*</span>}
+              </label>
+            )}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
+              {field.options.map((opt) => (
+                <label key={opt.value} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    name={field.name}
+                    value={opt.value}
+                    checked={valueArray.includes(opt.value)}
+                    onChange={e => {
+                      let newArr = valueArray.slice();
+                      if (e.target.checked) {
+                        newArr.push(opt.value);
+                      } else {
+                        newArr = newArr.filter(v => v !== opt.value);
+                      }
+                      onChange(field.name, newArr);
+                    }}
+                    onBlur={handleBlur}
+                    disabled={disabled || field.disabled}
+                    className="form-checkbox"
+                  />
+                  <span style={{ marginLeft: '0.5rem' }}>{opt.label}</span>
+                </label>
+              ))}
+            </div>
+            {isError && (
+              <div id={`${field.name}-error`} className="form-error">
+                <span className="error-icon">⚠</span>
+                <span>{error}</span>
+              </div>
+            )}
+          </div>
+        );
+      }
+      // Single checkbox
       return (
         <div className={fieldClassName}>
           <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
