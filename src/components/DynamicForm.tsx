@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useFormSubmission, useFormValidator } from '../hooks/useFormValidator';
+import { generateThemeVariables, getTheme, type FormTheme, type ThemeName } from '../lib/themes';
 import type { CustomizationOptions, FieldConfig } from '../lib/types';
 // Styles are provided as a plain CSS entry (`src/styles/index.css`).
 // Consumers should import 'formguardian-react/styles' (side-effect) or the package will provide styles in dist.
@@ -16,6 +17,7 @@ interface DynamicFormProps {
   disabled?: boolean;
   className?: string;
   submitThrottleMs?: number; // throttle delay for submit button
+  theme?: ThemeName | FormTheme; // beautiful theme support
 }
 
 /**
@@ -32,6 +34,7 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
   disabled = false,
   className,
   submitThrottleMs = 1000,
+  theme = 'modern',
 }) => {
   const {
     formState,
@@ -55,6 +58,10 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
       setSubmitError(null);
     }
   }, [formState.errors, submitError, setSubmitError]);
+
+  // Apply theme via CSS variables
+  const selectedTheme = getTheme(theme);
+  const themeVariables = generateThemeVariables(selectedTheme);
 
   const containerClass = [
     'form-container',
@@ -88,53 +95,55 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
     .join(' ');
 
   return (
-    <form onSubmit={handleSubmit} className={formContainerClass}>
-      <div className={containerClass}>
-        {/* Render all fields */}
-        {fields.map((field) => (
-          <FormField
-            key={field.name}
-            field={field}
-            value={formState.values[field.name]}
-            error={formState.errors[field.name] || ''}
-            touched={formState.touched[field.name] || false}
-            onChange={setFieldValue}
-            onBlur={setFieldTouched}
-            disabled={disabled || field.disabled}
-            showAnimation={customization?.showAnimations !== false}
-          />
-        ))}
+    <div style={themeVariables as React.CSSProperties}>
+      <form onSubmit={handleSubmit} className={formContainerClass}>
+        <div className={containerClass}>
+          {/* Render all fields */}
+          {fields.map((field) => (
+            <FormField
+              key={field.name}
+              field={field}
+              value={formState.values[field.name]}
+              error={formState.errors[field.name] || ''}
+              touched={formState.touched[field.name] || false}
+              onChange={setFieldValue}
+              onBlur={setFieldTouched}
+              disabled={disabled || field.disabled}
+              showAnimation={customization?.showAnimations !== false}
+            />
+          ))}
 
-        {/* Submit error message */}
-        {submitError && (
-          <div className="error-boundary">
-            <span>⚠ {submitError}</span>
-          </div>
-        )}
-
-        {/* Buttons */}
-        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-          <button
-            type="submit"
-            disabled={disabled || isSubmitting || isThrottled}
-            className={buttonClass}
-          >
-            {isSubmitting ? 'Submitting...' : submitButtonText}
-          </button>
-
-          {showResetButton && (
-            <button
-              type="button"
-              onClick={resetForm}
-              disabled={disabled || isSubmitting}
-              className={resetButtonClass}
-            >
-              {resetButtonText}
-            </button>
+          {/* Submit error message */}
+          {submitError && (
+            <div className="error-boundary">
+              <span>⚠ {submitError}</span>
+            </div>
           )}
+
+          {/* Buttons */}
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <button
+              type="submit"
+              disabled={disabled || isSubmitting || isThrottled}
+              className={buttonClass}
+            >
+              {isSubmitting ? 'Submitting...' : submitButtonText}
+            </button>
+
+            {showResetButton && (
+              <button
+                type="button"
+                onClick={resetForm}
+                disabled={disabled || isSubmitting}
+                className={resetButtonClass}
+              >
+                {resetButtonText}
+              </button>
+            )}
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 
