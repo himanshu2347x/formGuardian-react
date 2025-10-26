@@ -113,7 +113,6 @@ export interface CustomizationOptions {
   fieldWrapperClass?: string;
   animationDuration?: number; // in ms
   showAnimations?: boolean;
-  theme?: 'light' | 'dark' | 'custom';
 }
 
 /** Form submission handler */

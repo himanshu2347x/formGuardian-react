@@ -6,11 +6,43 @@
 
 /* Reuse the same styles as form.module.css (kept duplicated for consumer convenience) */
 
+:root {
+  --form-primary: #3b82f6;
+  --form-secondary: #6b7280;
+  --form-success: #10b981;
+  --form-danger: #ef4444;
+  --form-warning: #f59e0b;
+  --form-input-bg: #ffffff;
+  --form-input-border: #e5e7eb;
+  --form-input-border-hover: #d1d5db;
+  --form-input-border-focus: #3b82f6;
+  --form-input-text: #111827;
+  --form-label-text: #374151;
+  --form-error-text: #dc2626;
+  --form-success-text: #059669;
+  --form-spacing-base: 1rem;
+  --form-border-radius: 0.5rem;
+  --form-font-size: 1rem;
+  --form-font-weight: 500;
+  --form-font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  --form-transition-duration: 0.2s;
+  --form-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --form-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --form-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
 .form-container {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+.form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-spacing-base);
+  font-family: var(--form-font-family);
 }
 
 .form-group {
@@ -32,6 +64,15 @@
   align-items: center;
   gap: 0.5rem;
   transition: color 0.2s ease;
+}
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--form-label-text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color var(--form-transition-duration) ease;
 }
 
 .form-label.error {
@@ -56,6 +97,16 @@
   transition: all 0.2s ease;
   background-color: #ffffff;
   color: #111827;
+}
+.form-input {
+  padding: 0.75rem;
+  border: 1px solid var(--form-input-border);
+  border-radius: var(--form-border-radius);
+  font-size: var(--form-font-size);
+  font-family: inherit;
+  transition: all var(--form-transition-duration) ease;
+  background-color: var(--form-input-bg);
+  color: var(--form-input-text);
 }
 
 .form-input:hover:not(:disabled) {
@@ -121,6 +172,15 @@
   accent-color: #3b82f6;
   transition: all 0.2s ease;
 }
+.form-checkbox,
+.form-radio {
+  cursor: pointer;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  accent-color: var(--form-primary);
+  transition: all var(--form-transition-duration) ease;
+}
 
 .form-checkbox:checked,
 .form-radio:checked {
@@ -139,6 +199,15 @@
   gap: 0.5rem;
   font-size: 0.875rem;
   color: #dc2626;
+  animation: slideInDown 0.3s ease-out;
+  margin-top: 0.25rem;
+}
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--form-error-text);
   animation: slideInDown 0.3s ease-out;
   margin-top: 0.25rem;
 }
@@ -161,6 +230,15 @@
   animation: slideInDown 0.3s ease-out;
   margin-top: 0.25rem;
 }
+.form-success {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--form-success-text);
+  animation: slideInDown 0.3s ease-out;
+  margin-top: 0.25rem;
+}
 
 .success-icon {
   flex-shrink: 0;
@@ -179,6 +257,20 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  text-transform: capitalize;
+}
+.form-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: var(--form-border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--form-transition-duration) ease;
   display: flex;
   align-items: center;
   justify-content: center;
