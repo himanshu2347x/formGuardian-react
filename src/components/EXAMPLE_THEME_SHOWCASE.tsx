@@ -4,8 +4,8 @@
 
 import { useState } from 'react';
 import { DynamicForm } from '../index';
-import type { FieldConfig } from '../lib/types';
 import type { ThemeName } from '../lib/themes';
+import type { FieldConfig } from '../lib/types';
 
 const fields: FieldConfig[] = [
   {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFormSubmission, useFormValidator } from '../hooks/useFormValidator';
+import { generateThemeVariables, getTheme, type FormTheme, type ThemeName } from '../lib/themes';
 import type { CustomizationOptions, FieldConfig } from '../lib/types';
-import { getTheme, generateThemeVariables, type ThemeName, type FormTheme } from '../lib/themes';
 // Styles are provided as a plain CSS entry (`src/styles/index.css`).
 // Consumers should import 'formguardian-react/styles' (side-effect) or the package will provide styles in dist.
 import FormField from './FormField';

@@ -12,7 +12,7 @@ export { useFormSubmission, useFormValidator } from './hooks/useFormValidator';
 
 // Types
 export type {
-    CustomizationOptions, CustomValidator, FieldBlurHandler, FieldChangeHandler, FieldConfig,
+    CustomValidator, CustomizationOptions, FieldBlurHandler, FieldChangeHandler, FieldConfig,
     FieldError, FormConfig, FormState, FormSubmitHandler, InputType, ValidationResult, ValidationRule, ValidatorType
 } from './lib/types';
 
@@ -20,10 +20,7 @@ export type {
 export { isEmpty, sanitizeValues, validateField, validateForm } from './lib/validators';
 
 // Themes
-export { 
-    modernTheme, darkTheme, minimalTheme, gradientTheme, oceanTheme, sunsetTheme, purpleTheme, forestTheme,
-    getTheme, generateThemeVariables, themes, type FormTheme, type ThemeName
-} from './lib/themes';
+export { darkTheme, forestTheme, generateThemeVariables, getTheme, gradientTheme, minimalTheme, modernTheme, oceanTheme, purpleTheme, sunsetTheme, themes, type FormTheme, type ThemeName } from './lib/themes';
 
 // Styles (import in your app)
 // import 'formguardian-react/styles'
