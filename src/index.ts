@@ -20,7 +20,10 @@ export type {
 export { isEmpty, sanitizeValues, validateField, validateForm } from './lib/validators';
 
 // Themes
-export { darkTheme, forestTheme, generateThemeVariables, getTheme, gradientTheme, minimalTheme, modernTheme, oceanTheme, purpleTheme, sunsetTheme, themes, type FormTheme, type ThemeName } from './lib/themes';
+export { 
+    modernTheme, darkTheme, minimalTheme, gradientTheme, oceanTheme, sunsetTheme, purpleTheme, forestTheme,
+    getTheme, generateThemeVariables, themes, type FormTheme, type ThemeName
+} from './lib/themes';
 
 // Styles (import in your app)
 // import 'formguardian-react/styles'
