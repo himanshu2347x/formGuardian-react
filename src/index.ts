@@ -1,8 +1,3 @@
-/**
- * React Form Guard - A reusable, customizable Form Validator Widget
- * Main entry point for the package
- */
-
 // Components
 export { DynamicForm } from './components/DynamicForm';
 export { FormField } from './components/FormField';
@@ -22,5 +17,3 @@ export { isEmpty, sanitizeValues, validateField, validateForm } from './lib/vali
 // Themes
 export { darkTheme, forestTheme, generateThemeVariables, getTheme, gradientTheme, minimalTheme, modernTheme, oceanTheme, purpleTheme, sunsetTheme, themes, type FormTheme, type ThemeName } from './lib/themes';
 
-// Styles (import in your app)
-// import 'formguardian-react/styles'
