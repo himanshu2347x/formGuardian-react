@@ -216,6 +216,7 @@ export function useFormValidator(
     validateSingleField,
     resetForm,
     setFieldValues,
+    setFormState,
   };
 }
 
@@ -226,7 +227,8 @@ export function useFormSubmission(
   onSubmit: (values: Record<string, unknown>) => void | Promise<void>,
   validateForm: () => Promise<boolean>,
   currentValues: Record<string, unknown>,
-  submitThrottleMs: number = 1000
+  submitThrottleMs: number = 1000,
+  setFormState?: React.Dispatch<React.SetStateAction<FormState>>
 ) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -244,6 +246,19 @@ export function useFormSubmission(
       try {
         const isValid = await validateForm();
         if (!isValid) {
+          // Mark all fields as touched so all errors show
+          if (setFormState) {
+            setFormState((prev: FormState) => {
+              const allTouched: Record<string, boolean> = {};
+              Object.keys(prev.values).forEach((key) => {
+                allTouched[key] = true;
+              });
+              return {
+                ...prev,
+                touched: allTouched,
+              };
+            });
+          }
           setSubmitError('Please fix the errors in the form');
           setIsSubmitting(false);
           return;

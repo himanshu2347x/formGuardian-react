@@ -36,19 +36,22 @@ export const DynamicForm: React.FC<DynamicFormProps> = ({
   submitThrottleMs = 1000,
   theme = 'modern',
 }) => {
+
   const {
     formState,
     setFieldValue,
     setFieldTouched,
     validateFormFields,
     resetForm,
+    setFormState,
   } = useFormValidator(fields, validationMode);
 
   const { handleSubmit, isSubmitting, isThrottled, submitError, setSubmitError } = useFormSubmission(
     onSubmit,
     validateFormFields,
     formState.values,
-    submitThrottleMs
+    submitThrottleMs,
+    setFormState
   );
 
   // Auto-clear submit error when all field errors are resolved
