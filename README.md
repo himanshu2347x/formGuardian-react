@@ -254,9 +254,6 @@ Use `{ type: "match", matchField: "otherFieldName" }`
 **Custom validator not working?**  
 Must return `boolean` or `Promise<boolean>`
 
-## Example
-
-See [`src/components/EXAMPLE_ADVANCED_FORM.tsx`](src/components/EXAMPLE_ADVANCED_FORM.tsx) for a complete real-world form.
 
 ## License
 
