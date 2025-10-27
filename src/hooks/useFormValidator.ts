@@ -3,9 +3,9 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { debounce, throttle } from '../lib/debounceThrottle';
-import type { FieldConfig, FormState, ValidationRule, ValidatorType } from '../lib/types';
-import { validateField, validateForm } from '../lib/validators';
+import { debounce, throttle } from '../utils/debounceThrottle';
+import type { FieldConfig, FormState, ValidationRule, ValidatorType } from '../utils/types';
+import { validateField, validateForm } from '../utils/validators';
 
 /**
  * Hook for managing form state and validation
@@ -234,7 +234,6 @@ export function useFormSubmission(
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isThrottled, setIsThrottled] = useState(false);
 
-  // Create throttled submit function that always uses latest closures
   const throttledSubmitRef = useRef<((e?: React.FormEvent<HTMLFormElement>) => void) | null>(null);
   useEffect(() => {
     throttledSubmitRef.current = throttle(async (e?: React.FormEvent<HTMLFormElement>) => {
@@ -276,7 +275,7 @@ export function useFormSubmission(
         setIsSubmitting(false);
       }
     }, submitThrottleMs);
-  }, [onSubmit, validateForm, currentValues, submitThrottleMs]);
+  }, [onSubmit, validateForm, currentValues, submitThrottleMs,setFormState]);
 
   const handleSubmit = useCallback((e?: React.FormEvent<HTMLFormElement>) => {
     throttledSubmitRef.current?.(e);

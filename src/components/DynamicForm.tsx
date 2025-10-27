@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFormSubmission, useFormValidator } from '../hooks/useFormValidator';
-import { generateThemeVariables, getTheme, type FormTheme, type ThemeName } from '../lib/themes';
-import type { CustomizationOptions, FieldConfig } from '../lib/types';
+import { generateThemeVariables, getTheme, type FormTheme, type ThemeName } from '../utils/themes';
+import type { CustomizationOptions, FieldConfig } from '../utils/types';
 import FormField from './FormField';
 
 interface DynamicFormProps {

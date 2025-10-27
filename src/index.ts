@@ -7,13 +7,13 @@ export { useFormSubmission, useFormValidator } from './hooks/useFormValidator';
 
 // Types
 export type {
-    CustomValidator, CustomizationOptions, FieldBlurHandler, FieldChangeHandler, FieldConfig,
+    CustomizationOptions, CustomValidator, FieldBlurHandler, FieldChangeHandler, FieldConfig,
     FieldError, FormConfig, FormState, FormSubmitHandler, InputType, ValidationResult, ValidationRule, ValidatorType
-} from './lib/types';
+} from './utils/types';
 
 // Utilities
-export { isEmpty, sanitizeValues, validateField, validateForm } from './lib/validators';
+export { isEmpty, sanitizeValues, validateField, validateForm } from './utils/validators';
 
 // Themes
-export { darkTheme, forestTheme, generateThemeVariables, getTheme, gradientTheme, minimalTheme, modernTheme, oceanTheme, purpleTheme, sunsetTheme, themes, type FormTheme, type ThemeName } from './lib/themes';
+export { darkTheme, forestTheme, generateThemeVariables, getTheme, gradientTheme, minimalTheme, modernTheme, oceanTheme, purpleTheme, sunsetTheme, themes, type FormTheme, type ThemeName } from './utils/themes';
 

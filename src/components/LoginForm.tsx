@@ -1,7 +1,7 @@
 import React from 'react';
 import { DynamicForm } from "../index";
-import type { FieldConfig } from "../lib/types";
 import '../styles/index.css';
+import type { FieldConfig } from "../utils/types";
 
 const loginFields: FieldConfig[] = [
   {

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import type { FieldBlurHandler, FieldChangeHandler, FieldConfig } from '../lib/types';
+import type { FieldBlurHandler, FieldChangeHandler, FieldConfig } from '../utils/types';
 // Use plain CSS class names (styles provided via `src/styles/index.css`).
 
 interface FormFieldProps {
